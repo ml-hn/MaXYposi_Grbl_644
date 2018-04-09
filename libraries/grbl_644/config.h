@@ -506,7 +506,7 @@
 // that the switches don't bounce, we recommend enabling this option. This will help prevent
 // triggering a hard limit when the machine disengages from the switch.
 // NOTE: This option has no effect if SOFTWARE_DEBOUNCE is enabled.
-// #define HARD_LIMIT_FORCE_STATE_CHECK // Default disabled. Uncomment to enable.
+#define HARD_LIMIT_FORCE_STATE_CHECK // Default disabled. Uncomment to enable.
 
 // Adjusts homing cycle search and locate scalars. These are the multipliers used by Grbl's
 // homing cycle to ensure the limit switches are engaged and cleared through each phase of
@@ -618,6 +618,10 @@
 	Realtime position data being transmitted in floating point format to SPI with SS pin low. 
 	See spi_sr.c for details.
 */
+
+
+
+
 
 #define SPI_SR    // SPI shift I/O registers 2..4x HC165 and 2x HC595
 #define SPI_DISP  // LC Display unit with own ATmega88/168/328 connected to SPI
