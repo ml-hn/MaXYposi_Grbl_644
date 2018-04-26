@@ -142,7 +142,7 @@ void jogpad_init() {
 
 void set_led_disp_status() {
 // LEDs des Bedienpanels setzen
-	uint8_t status_temp = 0;
+//	uint8_t status_temp = 0;
 	uint8_t leds_temp;
 	blink_count++;
 
@@ -161,7 +161,7 @@ void set_led_disp_status() {
 			leds_temp = (1 << LED_ALARM);
 		#else
 			leds_temp = 0;
-		#endif;
+		#endif
 		// aufgeregt blinken bei Alarm
 		if (blink_count > 2250) { 
 			blink_toggle ^= 0xFF;
@@ -178,29 +178,29 @@ void set_led_disp_status() {
 		if (sys.state & STATE_HOLD) {
 			leds_temp |= (1 << LED_HOLD);
 		}
-	#endif;
+	#endif
 	leds_temp &= blink_toggle;
 	
   #ifdef LED_HOMING
 		if (sys.state & STATE_HOMING) {
 			leds_temp |= (1 << LED_HOMING);
 		}
-	#endif;
+	#endif
   #ifdef LED_RUN
 		if (sys.state & STATE_CYCLE) {
 			leds_temp |= (1 << LED_RUN);
 		}
-	#endif;
+	#endif
   #ifdef LED_JOG
 		if (sys.state & STATE_JOG) {
 			leds_temp |= (1 << LED_JOG);
 		}
-	#endif;
+	#endif
 	
 	if (spindle_get_state()) { 
 		#ifdef LED_SPINDLE
 			leds_temp |= (1<<LED_SPINDLE); 
-		#endif;
+		#endif
 		sr_dispstate_1 = sys.state | 0x80;
 	} else {
 		sr_dispstate_1 = sys.state;
@@ -210,12 +210,12 @@ void set_led_disp_status() {
 		if (flood_on) {
 			leds_temp |= (1 << LED_FLOOD);
 		}
-	#endif;
+	#endif
 	#ifdef LED_MIST
 		if (mist_on) {
 			leds_temp |= (1 << LED_MIST);
 		}
-	#endif;
+	#endif
 	#ifdef DIAL_ENABLED	
 		if (dial_axis == 0) {
 			#ifdef LED_DIAL_SELECT_X
@@ -239,11 +239,11 @@ void set_led_disp_status() {
 				leds_temp |= (1 << LED_DIAL_FAST);
 			}
 		#endif
-	#endif;
+	#endif
  	STATUS_LED_OUT_SR = leds_temp; 		// Status-LED-Port setzen
  	#ifdef SPI_DISP	
  		sr_dispstate_0 = msg_to_display;
-	#endif;
+	#endif
 }
 
 void btn_wait_execute() {

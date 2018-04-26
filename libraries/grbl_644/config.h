@@ -40,8 +40,10 @@
 
 #define PROC_NAME "AVR_644" 	// issued with $I command -cm
 
-#define GRBL_VERSION "1.1f5"	// issued with $I command -cm
-#define GRBL_VERSION_BUILD "02/24/2018"
+#ifndef GRBL_VERSION
+	#define GRBL_VERSION "1.1f5"	// issued with $I command -cm
+	#define GRBL_VERSION_BUILD "02242018"
+#endif
 
 //#define USER_PANEL_SMALL  // 16 SR inputs and ADC7 used for manual jog (joystick, btns etc). SPI_SR needed.
 #define USER_PANEL_LARGE  // MaXYpulti - 32 SR inputs and ADC7 used for manual jog (joystick, btns etc). SPI_SR needed.
@@ -584,7 +586,7 @@
 // NOTE: Still a work-in-progress. Machine coordinates must be in all negative space and
 // does not work with HOMING_FORCE_SET_ORIGIN enabled. Parking motion also moves only in
 // positive direction.
-// #define PARKING_ENABLE  // Default disabled. Uncomment to enable
+#define PARKING_ENABLE  // Default disabled. Uncomment to enable
 
 // Configure options for the parking motion, if enabled.
 #define PARKING_AXIS Z_AXIS // Define which axis that performs the parking motion
@@ -599,7 +601,7 @@
 // The command is modal and will be set after a planner sync. Since it is g-code, it is 
 // executed in sync with g-code commands. It is not a real-time command.
 // NOTE: PARKING_ENABLE is required.
-// #define ENABLE_PARKING_OVERRIDE_CONTROL   // Default disabled. Uncomment to enable
+#define ENABLE_PARKING_OVERRIDE_CONTROL   // Default disabled. Uncomment to enable
 
 // This option will automatically disable the laser during a feed hold by invoking a spindle stop
 // override immediately after coming to a stop. However, this also means that the laser still may
@@ -618,10 +620,6 @@
 	Realtime position data being transmitted in floating point format to SPI with SS pin low. 
 	See spi_sr.c for details.
 */
-
-
-
-
 
 #define SPI_SR    // SPI shift I/O registers 2..4x HC165 and 2x HC595
 #define SPI_DISP  // LC Display unit with own ATmega88/168/328 connected to SPI
