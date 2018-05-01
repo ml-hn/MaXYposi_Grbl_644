@@ -5,7 +5,7 @@
 	Needs some changes/hooks in 
 	protocol.c, --> protocol_main_loop() 
 	
-	Alles noch ziemlich Kraut und Rüben
+	Alles noch ziemlich Kraut und RÃ¼ben
 	by cm@heise.de
  
 */
@@ -21,8 +21,8 @@ volatile bool dial_sema = false;
 volatile int8_t dial_delta_8;      // Schritte von Handrad aus ISR(DIAL_INT_vect), Signed Byte!
 
 uint8_t dial_fast = 0;
-float dial_delta_f = 0.0;         // Akkumulator für Handrad-Werte
-int32_t dial_delta_32 = 0;	      // Akkumulator für Handrad-Werte
+float dial_delta_f = 0.0;         // Akkumulator fÃ¼r Handrad-Werte
+int32_t dial_delta_32 = 0;	      // Akkumulator fÃ¼r Handrad-Werte
 uint8_t dial_axis = 0;
 
 uint16_t blink_count = 0; 
@@ -32,7 +32,7 @@ uint8_t blink_toggle;
 #ifdef DIAL_ENABLED
   void check_encoder_hook(uint8_t dial_pin) {
   // Pin change interrupt hook for manual dial, bits DIAL_PHA, DIAL_PHB
-  // für "atomare" Operation im Limit-Pinchange-Interrupt ist dial_delta_8 ein Signed Byte! 
+  // fÃ¼r "atomare" Operation im Limit-Pinchange-Interrupt ist dial_delta_8 ein Signed Byte! 
   	if (sys.state & (STATE_ALARM | STATE_HOLD)) return;
   		
     uint8_t pin = (dial_pin & DIAL_MASK) >> DIAL_0_BIT;
@@ -142,7 +142,7 @@ void jogpad_init() {
 
 void set_led_disp_status() {
 // LEDs des Bedienpanels setzen
-//	uint8_t status_temp = 0;
+	//uint8_t status_temp = 0; // currently unused
 	uint8_t leds_temp;
 	blink_count++;
 
@@ -318,13 +318,13 @@ void jogpad_check() {
 // ################# M A C H I N E   B U T T O N S #######################
 // #######################################################################
 
-	buttons_temp = MACHINE_INP_SR; 	// unbenutzte Buttons könnten hier ausmaskiert werden
+	buttons_temp = MACHINE_INP_SR; 	// unbenutzte Buttons kÃ¶nnten hier ausmaskiert werden
 	if (buttons_temp) {
 		delay_ms(10);
     spi_txrx_inout();	// Entprellung: Alle SPI-IOs nochmals holen/setzen
 		buttons_temp = MACHINE_INP_SR;
 		if (buttons_temp == 0) return;
-	  // Einer der Buttons an MACHINE_INP_SR gedrückt	
+	  // Einer der Buttons an MACHINE_INP_SR gedrÃ¼ckt	
   	if ((buttons_temp & (1<<HOME_SW)) && ((sys.state == STATE_IDLE) || (sys.state == STATE_ALARM))) {	
       msg_to_display = 1;
 		  if (bit_istrue(settings.flags,BITFLAG_HOMING_ENABLE)) {
@@ -357,7 +357,7 @@ void jogpad_check() {
 	  	return;
 	  }
   	if (sys.state == STATE_IDLE) {
-	  	// jog_zero_request_flag wird in report_realtime_status() zurückgesetzt
+	  	// jog_zero_request_flag wird in report_realtime_status() zurÃ¼ckgesetzt
 	    // WPos = MPos - WCS - G92 - TLO  ->  G92 = MPos - WCS - TLO - WPos
 	    // Berechnung: wco[idx] = gc_state.coord_system[idx] + gc_state.coord_offset[idx];
 	  	#ifdef ZERO_X_SW
@@ -699,7 +699,7 @@ void jogpad_check() {
   #ifdef JOY_ENABLED
 		float joy_target_mpos[N_AXIS];    	// Maschinenposition in mm
 			
-		uint8_t joy_axis;	// kein Dial-Schalter EIN
+		uint8_t joy_axis = 0;	// kein Dial-Schalter EIN
 		uint8_t joy_rev = 0;
 		old_f_override = sys.f_override;
 		
@@ -742,7 +742,7 @@ void jogpad_check() {
 					joy_rev = 1;
 			#endif
 			}
-			// Bewegungs-Vektor auf Maschinengröße begrenzen; kann negativ sein!
+			// Bewegungs-Vektor auf MaschinengrÃ¶ÃŸe begrenzen; kann negativ sein!
 			#ifdef HOMING_FORCE_SET_ORIGIN
 				// assume positive machine space
 				// settings.max_travel is always negative!
@@ -806,7 +806,7 @@ void jogpad_check() {
 				spi_txrx_inout();
 	    	buttons_temp = JOY_INP_SR;
 				spi_tx_axis(joy_axis);  	    // neuen Status an Display
-    		protocol_execute_realtime();  // hält die Maschine am Laufen
+    		protocol_execute_realtime();  // hÃ¤lt die Maschine am Laufen
     		
 			  adc_dest_feed = get_feed_from_adc();
 				bool update_ovr = false;
@@ -832,7 +832,7 @@ void jogpad_check() {
 		} while (buttons_temp_old == buttons_temp);
 		
     if (sys.state & STATE_JOG) { 
-    	// Wichtig: Führt sonst zum Absturz, wenn Ende bereits erreicht:
+    	// Wichtig: FÃ¼hrt sonst zum Absturz, wenn Ende bereits erreicht:
     	// Block all other states from invoking motion cancel.
     	system_set_exec_state_flag(EXEC_MOTION_CANCEL);
 			#ifdef debug_jog
@@ -862,7 +862,7 @@ void jogpad_check() {
 
   if (dial_sema || (dial_delta_32 != 0)) { 
 	// Impuls(e) vom Handrad empfangen. Zielposition aus Delta-Wert dial_delta_32 errechnen 
-	// und Ziel über mc_line(target) anfahren.
+	// und Ziel Ã¼ber mc_line(target) anfahren.
 		#ifdef HOMING_FORCE_SET_ORIGIN
 		// assume positive machine space
 			jog_upper_limit = -settings.max_travel[dial_axis] - settings.homing_pulloff ;

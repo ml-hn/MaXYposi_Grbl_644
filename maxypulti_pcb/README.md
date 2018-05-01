@@ -138,17 +138,17 @@ verschiedenfarbige straw-hat-LEDs z.B. von Aliexpress. Man findet mit der Suche
 
 * Die Firmware mit einem Arduino als ISP auf den ATMEGA328P zu bringen ist nicht ganz einfach. Hier meine Anleitung (für Linux, sollte aber auch für andere OS gehen):
 
-  *  Nach dem Tutorial hier den Arduino mit einem ISP-Sketch versehen und mit dem MaxyPulti verbinden. Im Detail bei einem Arduino UNO oder Pro als ISP: (Arduino ISP->MaxyPulti PL3) ISP1->9, ISP2->2, ISP3->7, ISP4->1, ISP5->4 und Arduino Pin 10->5.
+  *  Nach dem Tutorial [hier](https://www.arduino.cc/en/Tutorial/ArduinoISP) den Arduino mit einem ISP-Sketch versehen und mit dem MaxyPulti verbinden. Im Detail bei einem Arduino UNO oder Pro als ISP: (Arduino ISP->MaxyPulti PL3) ISP1->9, ISP2->2, ISP3->7, ISP4->1, ISP5->4 und Arduino Pin 10->5.
 
   * In den Arduino-IDE-Voreinstellungen "Ausführliche Ausgabe während ... Hochladen" aktivieren.
 
   * Als Board "Arduino/Genuino UNO" und als Programmer "Arduino as ISP" einstellen und auf "Bootloader brennen" klicken. Nun sollte der Bootloader installiert sein.
 
-  * Die erste Kommandozeile aus dem Ausgabefenster kopieren (fett markierter Teil). Sie sollte in etwa so aussehen: "/home/USERNAME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino9/bin/avrdude -C/home/USERNAME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino9/etc/avrdude.conf -v -patmega328p -cstk500v1 -P/dev/ttyACM0 -b19200 -Uflash:w:/home/USERNAME/.arduino15/packages/arduino/hardware/avr/1.6.21/bootloaders/optiboot/optiboot_atmega328.hex:i -Ulock:w:0x0F:m". Hier ist USERNAME der Name des angemeldeten Benutzers.
+  * Die erste Kommandozeile aus dem Ausgabefenster kopieren (fett markierter Teil). Sie sollte in etwa so aussehen: "**/home/USERNAME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino9/bin/avrdude -C/home/USERNAME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino9/etc/avrdude.conf -v -patmega328p -cstk500v1 -P/dev/ttyACM0 -b19200 -Uflash:w:**/home/USERNAME/.arduino15/packages/arduino/hardware/avr/1.6.21/bootloaders/optiboot/optiboot_atmega328.hex:i -Ulock:w:0x0F:m". Hier ist USERNAME der Name des angemeldeten Benutzers.
 
   * Die Datei "grbl_display.hex" herunterladen. Terminal öffnen und in das Verzeichnis mit der Datei wechseln.
 
-  * Kommandozeile für HEX-Upload zusammenbauen (oben kopierter Teil, plus fett markierter Teil): "/home/USERNAME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino9/bin/avrdude -C/home/USERNAME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino9/etc/avrdude.conf -v -patmega328p -cstk500v1 -P/dev/ttyACM0 -b19200 -Uflash:w:grbl_display.hex -D".
+  * Kommandozeile für HEX-Upload zusammenbauen (oben kopierter Teil, plus fett markierter Teil): "/home/USERNAME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino9/bin/avrdude -C/home/USERNAME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino9/etc/avrdude.conf -v -patmega328p -cstk500v1 -P/dev/ttyACM0 -b19200 -Uflash:w:**grbl_display.hex -D**".
 
   * Nachdem der Upload fertig ist, sollte LED1 auf dem MaxyPulti rhythmisch blinken.
 

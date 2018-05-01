@@ -46,6 +46,8 @@ void jogpad_init();
 // void set_activity_led();
 void set_led_status();
 
+// TODO: document, used in protocol.c
+void set_led_disp_status();
 
 // perform the jogging cycle
 void jogpad_check();

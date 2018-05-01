@@ -104,7 +104,7 @@ uint8_t limits_get_state()
 #ifdef DIAL_ENABLED
     // first check Encoder Wheel on same pins
     check_encoder_hook(LIMIT_PIN);
-    if ((LIMIT_PIN & LIMIT_MASK) == LIMIT_MASK) return;
+     if (!limits_get_state()) return;
 #endif
     
     // Ignore limit switches if already in an alarm state or in-process of executing an alarm.
@@ -133,7 +133,7 @@ uint8_t limits_get_state()
 	#ifdef DIAL_ENABLED
     // first check Encoder Wheel on same pins
     check_encoder_hook(LIMIT_PIN);
-    if ((LIMIT_PIN & LIMIT_MASK) == LIMIT_MASK) return; // no limit pins envolved
+     if (!limits_get_state()) return; // no limit pins envolved
 	#endif
     if (!(WDTCSR & (1<<WDIE))) { WDTCSR |= (1<<WDIE); } 
   }
