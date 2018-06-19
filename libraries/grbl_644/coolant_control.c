@@ -79,39 +79,46 @@ void coolant_stop()
 // parser program end, and g-code parser coolant_sync().
 void coolant_set_state(uint8_t mode)
 {
-  if (sys.abort) { return; } // Block during abort.  
-  if (mode == COOLANT_DISABLE) {
-  
-    coolant_stop(); 
-  
-  } else {
-  
-    if (mode & COOLANT_FLOOD_ENABLE) {
-      #ifdef INVERT_COOLANT_FLOOD_PIN
-        COOLANT_FLOOD_PORT &= ~(1 << COOLANT_FLOOD_BIT);
-      #else
-        COOLANT_FLOOD_PORT |= (1 << COOLANT_FLOOD_BIT);
-      #endif
-      MACHINE_OUT_SR |= (1 << COOLANT_FLOOD_SR);
-      flood_on = true;	// track for panel buttons -cm
-    }
-  
-	  
-	  #ifdef ENABLE_M7
-      if (mode & COOLANT_MIST_ENABLE) {
-        #ifdef INVERT_COOLANT_MIST_PIN
-          COOLANT_MIST_PORT &= ~(1 << COOLANT_MIST_BIT);
-        #else
-          COOLANT_MIST_PORT |= (1 << COOLANT_MIST_BIT);
-        #endif
-        MACHINE_OUT_SR |= (1 << COOLANT_MIST_SR);
-        mist_on = true;	// track for panel buttons -cm
-      }
+  if (sys.abort) { return; } // Block during abort.
+	
+  if (mode & COOLANT_FLOOD_ENABLE) {
+    #ifdef INVERT_COOLANT_FLOOD_PIN
+      COOLANT_FLOOD_PORT &= ~(1 << COOLANT_FLOOD_BIT);
+      spi_txrx_inout();
+    #else
+      COOLANT_FLOOD_PORT |= (1 << COOLANT_FLOOD_BIT);
+      spi_txrx_inout();
     #endif
-    spi_txrx_inout();
-  
-	}
-  
+  } else {
+    #ifdef INVERT_COOLANT_FLOOD_PIN
+      COOLANT_FLOOD_PORT |= (1 << COOLANT_FLOOD_BIT);
+      spi_txrx_inout();
+    #else
+      COOLANT_FLOOD_PORT &= ~(1 << COOLANT_FLOOD_BIT);
+      spi_txrx_inout();
+    #endif
+  }  
+
+  #ifdef ENABLE_M7
+    if (mode & COOLANT_MIST_ENABLE) {
+      #ifdef INVERT_COOLANT_MIST_PIN
+        COOLANT_MIST_PORT &= ~(1 << COOLANT_MIST_BIT);
+        spi_txrx_inout();
+      #else
+        COOLANT_MIST_PORT |= (1 << COOLANT_MIST_BIT);
+        spi_txrx_inout();
+      #endif
+    } else {
+        #ifdef INVERT_COOLANT_MIST_PIN
+        COOLANT_MIST_PORT |= (1 << COOLANT_MIST_BIT);
+        spi_txrx_inout();
+      #else
+        COOLANT_MIST_PORT &= ~(1 << COOLANT_MIST_BIT);
+        spi_txrx_inout();
+      #endif
+    }
+  #endif
+
   if (mode == ATC_ENABLE) {
     MACHINE_OUT_SR |= (1 << ATC_SR);	// -cm
     atc_on = true;	// track for panel buttons
@@ -136,7 +143,7 @@ void coolant_set_state(uint8_t mode)
   } else if (mode == AUX3_DISABLE) {
     MACHINE_OUT_SR &= ~(1 << AUX3_SR);	// -cm
     aux3_on = false;	// track for panel buttons
-	}
+  }
   spi_txrx_inout();
   sys.report_ovr_counter = 0; // Set to report change immediately
 }
