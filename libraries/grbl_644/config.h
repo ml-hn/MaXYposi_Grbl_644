@@ -102,7 +102,7 @@
 // the user to perform the homing cycle (or override the locks) before doing anything else. This is
 // mainly a safety feature to remind the user to home, since position is unknown to Grbl.
 // ##############################################################################################################
-// #define HOMING_INIT_LOCK // zunächst einmal für den Testzeitraum // Comment to disable
+// #define HOMING_INIT_LOCK // zunÃ¤chst einmal fÃ¼r den Testzeitraum // Comment to disable
 // ##############################################################################################################
 
 // Define the homing cycle patterns with bitmasks. The homing cycle first performs a search mode
@@ -218,8 +218,8 @@
 // NOTE: The top option will mask and invert all control pins. The bottom option is an example of
 // inverting only two control pins, the safety door and reset. See cpu_map.h for other bit definitions.
 // #define INVERT_CONTROL_PIN_MASK CONTROL_MASK // Default disabled. Uncomment to disable.
-// #define INVERT_CONTROL_PIN_MASK ((1<<CONTROL_SAFETY_DOOR_BIT)|(CONTROL_RESET_BIT)) // Default disabled.
-#define INVERT_CONTROL_PIN_MASK (1<<CONTROL_RESET_BIT) // My Emergency Button is a "NC" Type.
+// #define INVERT_CONTROL_PIN_MASK ((CONTROL_SAFETY_DOOR_BIT)|(CONTROL_RESET_BIT)) // Default disabled.
+#define INVERT_CONTROL_PIN_MASK CONTROL_RESET_BIT // My Emergency Button is a "NC" Type.
 
 // Inverts select limit pin states based on the following mask. This effects all limit pin functions,
 // such as hard limits and homing. However, this is different from overall invert limits setting.
@@ -659,16 +659,16 @@
 	Jumper) und 3 (beide Jumper) eingestellt werden. Wenn ein Adress-Befehl (real 
 	time command, 0xD0 to 0xD3) empfangen wurde, der nicht der eingestellten 
 	Adresse entspricht, wird GRBL ab sofort alle  Befehle (G-Codes sowie Realtime-
-	Befehle außer natürlich einem Adress-Befehl) ignorieren, Erst wenn GRBL wieder 
-	ein zur eingestellten Adresse passenden Adress-Befehl (0xD0 to 0xD3) empfängt, 
+	Befehle auÃŸer natÃ¼rlich einem Adress-Befehl) ignorieren, Erst wenn GRBL wieder 
+	ein zur eingestellten Adresse passenden Adress-Befehl (0xD0 to 0xD3) empfÃ¤ngt, 
 	wird die Sperre aufgehoben. Nach einem Hardware-Reset ist die Sperre nicht 
 	aktiv.
   
-  Dies ermöglicht es, mehr als eine GRBL-Board an einem seriellen Anschluss zu 
-  betreiben, z.B. für Maschinen mit mehr als drei Achsen. Sobald ein Adress-
+  Dies ermÃ¶glicht es, mehr als eine GRBL-Board an einem seriellen Anschluss zu 
+  betreiben, z.B. fÃ¼r Maschinen mit mehr als drei Achsen. Sobald ein Adress-
   Befehl gesendet wurde, ist nur noch ein Board aktiv. 
   
-  Voraussetzung: TX des ATmega muss über Diode und Pull-Up "wired-or"-fähig sein.
+  Voraussetzung: TX des ATmega muss Ã¼ber Diode und Pull-Up "wired-or"-fÃ¤hig sein.
   
 	With DEVICE_ADDR_ENABLE defined, GRBL is enabled on startup and if address 
 	select 0xD0 to 0xD3 (real time command) is received and address select (data 
