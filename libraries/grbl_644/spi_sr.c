@@ -15,7 +15,7 @@ bool spi_wait_to(uint8_t timeout){
 // liefert TRUE wenn Timeout-Fehler
 // klassisches Polling von SPIF bleibt nach Stopp der Motoren
 // (Abschalten der Timer-IRQs) 
-// aus unerfindlichem Grund manchmal h‰ngen:
+// aus unerfindlichem Grund manchmal h√§ngen:
 /*
   while(!(SPSR & (1<<SPIF))){
   	};
@@ -33,12 +33,12 @@ bool spi_wait_to(uint8_t timeout){
 
 void spi_init(){
   // configure SPI
-	// DDRs und PullUps f¸r Strobe-Port (Schieberegister) setzen
-	// separate Strobes f¸r HC165 und HC595
+	// DDRs und PullUps f√ºr Strobe-Port (Schieberegister) setzen
+	// separate Strobes f√ºr HC165 und HC595
 	STROBE_DDR |= (1<<STROBE_INP)|(1<<STROBE_OUT); 
 	STROBE_PORT |= (1<<STROBE_INP);		// HC165 active low, deshalb 1
 	STROBE_PORT &= ~(1<<STROBE_OUT);	// HC595 active high, deshalb 0
-	// DDRs und PullUps f¸r SPI-Port setzen
+	// DDRs und PullUps f√ºr SPI-Port setzen
 	SPI_PORT |= (1<<SPI_SS)|(1<<SPI_MISO);	
 	SPI_DDR |= (1<<SPI_SS)|(1<<SPI_MOSI)|(1<<SPI_SCK);
 	sr_inputs_0 = 0;
@@ -54,10 +54,10 @@ void spi_init(){
 	
 	
 void spi_start_disp(){
-// f¸r Display
+// f√ºr Display
 	SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);
 	//SPSR = (1<<SPI2X);
-	SPSR &= ~(1<<SPI2X); // 2x-Bit SPI2X f¸r schnellere ‹bertragung lˆschen, SCK = 1 MHz
+	SPSR &= ~(1<<SPI2X); // 2x-Bit SPI2X f√ºr schnellere √úbertragung l√∂schen, SCK = 1 MHz
 	SPI_PORT &= ~(1<<SPI_SS);
 }
 
@@ -68,18 +68,18 @@ void spi_end() {
 
 
 void spi_txrx_inout() {
-// wird regelm‰ﬂig in protocol_main_loop() aufgerufen -cm
+// wird regelm√§√üig in protocol_main_loop() aufgerufen -cm
 // transmit sr_outputs and receive sr_inputs
 // schiebt 16 Bit aus sr_outpus_0/_1 in Hardware-SR
 // und holt 16 Bit aus Hardware-SRs in sr_inputs_0/_1/_2/_3
 		
 	
-  // SPI-Init f¸r Hardware-SR Output 74HC595, schneller SCK 2 MHz
+  // SPI-Init f√ºr Hardware-SR Output 74HC595, schneller SCK 2 MHz
   // Enable SPI, Master, Prescaler 4, Sample on rising edge for HC595   
   SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);  
-	SPSR |= (1<<SPI2X); // 2x-Bit SPI2X f¸r schnellere ‹bertragung setzen
+	SPSR |= (1<<SPI2X); // 2x-Bit SPI2X f√ºr schnellere √úbertragung setzen
 
-	// zuerst Daten f¸r 2. SR
+	// zuerst Daten f√ºr 2. SR
 	SPDR = sr_outputs_1; // tx data
   if (spi_wait_to(SPI_TIMEOUT_FAST)) {    // TRUE wenn kurzes Timeout erreicht
   	#ifdef debug_spi
@@ -89,7 +89,7 @@ void spi_txrx_inout() {
   	return;
   }
   
-	// zuerst Daten f¸r 2. SR
+	// zuerst Daten f√ºr 2. SR
 	SPDR = sr_outputs_0; // tx data
   if (spi_wait_to(SPI_TIMEOUT_FAST)) {    // TRUE wenn kurzes Timeout erreicht
   	#ifdef debug_spi
@@ -99,7 +99,7 @@ void spi_txrx_inout() {
   	return;
   }
 
-	STROBE_PORT |= (1<<STROBE_OUT);  // strobe SR 74HC595, Ausg‰nge setzen
+	STROBE_PORT |= (1<<STROBE_OUT);  // strobe SR 74HC595, Ausg√§nge setzen
 	__asm__("nop\n\t"); 
 	__asm__("nop\n\t"); 
 	STROBE_PORT &= ~(1<<STROBE_OUT);
@@ -108,15 +108,15 @@ void spi_txrx_inout() {
   // Enable SPI, Master, Prescaler 4, Sample on falling edge for HC165 |(1<<CPOL)
   // SPCR = (1<<SPE)|(1<<MSTR);
   
-	//SPSR &= ~(1<<SPI2X); // 2x-Bit SPI2X f¸r schnellere ‹bertragung lˆschen, SCK = 1 MHz
+	//SPSR &= ~(1<<SPI2X); // 2x-Bit SPI2X f√ºr schnellere √úbertragung l√∂schen, SCK = 1 MHz
 	
 	STROBE_PORT &= ~(1<<STROBE_INP);  // parallel load SR 74HC165, active low
 	__asm__("nop\n\t"); 
 	__asm__("nop\n\t"); 
 	STROBE_PORT |= (1<<STROBE_INP);
 	
-	// Wg. Zuverl‰ssigkeit und Entprellung: Vergleiche mit vorherigem Wert. 
-	// Erst wenn beide gleich, in sr_intputs ¸bernehmen
+	// Wg. Zuverl√§ssigkeit und Entprellung: Vergleiche mit vorherigem Wert. 
+	// Erst wenn beide gleich, in sr_intputs √ºbernehmen
 	// 1. Byte vom SR direkt an MISO
 	SPDR = 0; // dummy to start rx
   if (spi_wait_to(SPI_TIMEOUT_FAST)) {    // TRUE wenn kurzes Timeout erreicht
@@ -193,7 +193,7 @@ void spi_txrx_inout() {
   
   	// Copy current state of the system position variable
     memcpy(current_position, sys_position, sizeof(sys_position)); // in steps
-    data.val = system_convert_axis_steps_to_mpos(current_position, axis_idx); // dauert ca. 8,5 µs
+    data.val = system_convert_axis_steps_to_mpos(current_position, axis_idx); // dauert ca. 8,5 ¬µs
     
   	// Report machine position
   	// LSB first, Mantisse zuletzt, siehe http://www.h-schmidt.net/FloatConverter/IEEE754.html
@@ -226,8 +226,8 @@ void spi_txrx_inout() {
   	}	
   }
   
-  spi_tx_axis(uint8_t axis_idx) {
-  // Achsenpositionen an Display senden. Dauer pro ‹bertragung ca. 150 µs
+  void spi_tx_axis(uint8_t axis_idx) {
+  // Achsenpositionen an Display senden. Dauer pro √úbertragung ca. 150 ¬µs
   	spi_start_disp();
     SPDR = (255);    // 4 Bytes Startsequenz $FF, $AA, $55, Achsen-#
 	  if (spi_wait_to(SPI_TIMEOUT_SLOW)) {    // TRUE wenn Timeout erreicht
@@ -282,7 +282,7 @@ void spi_txrx_inout() {
   }
   
   void spi_tx_axis_roundrobin() {
-  // Alle 5 ms eine der Achsenpositionen an Display senden. Dauer pro ‹bertragung ca. 150 µs
+  // Alle 5 ms eine der Achsenpositionen an Display senden. Dauer pro √úbertragung ca. 150 ¬µs
   // nach 3 x 5 = 15 ms sind alle Achsen gesendet
     static uint8_t idx_count;
     static uint8_t idx;

@@ -5,7 +5,7 @@
 	Needs some changes/hooks in 
 	protocol.c, --> protocol_main_loop() 
 	
-	Alles noch ziemlich Kraut und Rüben
+	Alles noch ziemlich Kraut und RÃ¼ben
 	by cm@heise.de
  
 */
@@ -21,8 +21,8 @@ volatile bool dial_sema = false;
 volatile int8_t dial_delta_8;      // Schritte von Handrad aus ISR(DIAL_INT_vect), Signed Byte!
 
 uint8_t dial_fast = 0;
-float dial_delta_f = 0.0;         // Akkumulator für Handrad-Werte
-int32_t dial_delta_32 = 0;	      // Akkumulator für Handrad-Werte
+float dial_delta_f = 0.0;         // Akkumulator fÃ¼r Handrad-Werte
+int32_t dial_delta_32 = 0;	      // Akkumulator fÃ¼r Handrad-Werte
 uint8_t dial_axis = 0;
 
 uint16_t blink_count = 0; 
@@ -32,7 +32,7 @@ uint8_t blink_toggle;
 #ifdef DIAL_ENABLED
   void check_encoder_hook(uint8_t dial_pin) {
   // Pin change interrupt hook for manual dial, bits DIAL_PHA, DIAL_PHB
-  // für "atomare" Operation im Limit-Pinchange-Interrupt ist dial_delta_8 ein Signed Byte! 
+  // fÃ¼r "atomare" Operation im Limit-Pinchange-Interrupt ist dial_delta_8 ein Signed Byte! 
   	if (sys.state & (STATE_ALARM | STATE_HOLD)) return;
   		
     uint8_t pin = (dial_pin & DIAL_MASK) >> DIAL_0_BIT;
@@ -142,7 +142,7 @@ void jogpad_init() {
 
 void set_led_disp_status() {
 // LEDs des Bedienpanels setzen
-	uint8_t status_temp = 0;
+	//uint8_t status_temp = 0; // currently unused
 	uint8_t leds_temp;
 	blink_count++;
 
@@ -161,7 +161,7 @@ void set_led_disp_status() {
 			leds_temp = (1 << LED_ALARM);
 		#else
 			leds_temp = 0;
-		#endif;
+		#endif
 		// aufgeregt blinken bei Alarm
 		if (blink_count > 2250) { 
 			blink_toggle ^= 0xFF;
@@ -178,29 +178,29 @@ void set_led_disp_status() {
 		if (sys.state & STATE_HOLD) {
 			leds_temp |= (1 << LED_HOLD);
 		}
-	#endif;
+	#endif
 	leds_temp &= blink_toggle;
 	
   #ifdef LED_HOMING
 		if (sys.state & STATE_HOMING) {
 			leds_temp |= (1 << LED_HOMING);
 		}
-	#endif;
+	#endif
   #ifdef LED_RUN
 		if (sys.state & STATE_CYCLE) {
 			leds_temp |= (1 << LED_RUN);
 		}
-	#endif;
+	#endif
   #ifdef LED_JOG
 		if (sys.state & STATE_JOG) {
 			leds_temp |= (1 << LED_JOG);
 		}
-	#endif;
+	#endif
 	
 	if (spindle_get_state()) { 
 		#ifdef LED_SPINDLE
 			leds_temp |= (1<<LED_SPINDLE); 
-		#endif;
+		#endif
 		sr_dispstate_1 = sys.state | 0x80;
 	} else {
 		sr_dispstate_1 = sys.state;
@@ -210,12 +210,12 @@ void set_led_disp_status() {
 		if (flood_on) {
 			leds_temp |= (1 << LED_FLOOD);
 		}
-	#endif;
+	#endif
 	#ifdef LED_MIST
 		if (mist_on) {
 			leds_temp |= (1 << LED_MIST);
 		}
-	#endif;
+	#endif
 	#ifdef DIAL_ENABLED	
 		if (dial_axis == 0) {
 			#ifdef LED_DIAL_SELECT_X
@@ -239,11 +239,11 @@ void set_led_disp_status() {
 				leds_temp |= (1 << LED_DIAL_FAST);
 			}
 		#endif
-	#endif;
+	#endif
  	STATUS_LED_OUT_SR = leds_temp; 		// Status-LED-Port setzen
  	#ifdef SPI_DISP	
  		sr_dispstate_0 = msg_to_display;
-	#endif;
+	#endif
 }
 
 void btn_wait_execute() {
@@ -318,13 +318,13 @@ void jogpad_check() {
 // ################# M A C H I N E   B U T T O N S #######################
 // #######################################################################
 
-	buttons_temp = MACHINE_INP_SR; 	// unbenutzte Buttons könnten hier ausmaskiert werden
+	buttons_temp = MACHINE_INP_SR; 	// unbenutzte Buttons kÃ¶nnten hier ausmaskiert werden
 	if (buttons_temp) {
 		delay_ms(10);
     spi_txrx_inout();	// Entprellung: Alle SPI-IOs nochmals holen/setzen
 		buttons_temp = MACHINE_INP_SR;
 		if (buttons_temp == 0) return;
-	  // Einer der Buttons an MACHINE_INP_SR gedrückt	
+	  // Einer der Buttons an MACHINE_INP_SR gedrÃ¼ckt	
   	if ((buttons_temp & (1<<HOME_SW)) && ((sys.state == STATE_IDLE) || (sys.state == STATE_ALARM))) {	
       msg_to_display = 1;
 		  if (bit_istrue(settings.flags,BITFLAG_HOMING_ENABLE)) {
@@ -357,7 +357,7 @@ void jogpad_check() {
 	  	return;
 	  }
   	if (sys.state == STATE_IDLE) {
-	  	// jog_zero_request_flag wird in report_realtime_status() zurückgesetzt
+	  	// jog_zero_request_flag wird in report_realtime_status() zurÃ¼ckgesetzt
 	    // WPos = MPos - WCS - G92 - TLO  ->  G92 = MPos - WCS - TLO - WPos
 	    // Berechnung: wco[idx] = gc_state.coord_system[idx] + gc_state.coord_offset[idx];
 	  	#ifdef ZERO_X_SW
@@ -479,12 +479,12 @@ void jogpad_check() {
         msg_to_display = 10; // now OFF!
   		  temp_state = mist_on;
 	    	coolant_stop();
- 	    	gc_state.modal.coolant &= ~(1<<COOLANT_STATE_FLOOD);
+ 	    	gc_state.modal.coolant &= ~COOLANT_STATE_FLOOD;
  	    	if (temp_state) coolant_set_state(COOLANT_MIST_ENABLE);
  		} else {
         msg_to_display = 11;
  	    	coolant_set_state(COOLANT_FLOOD_ENABLE);
- 	    	gc_state.modal.coolant |= (1<<COOLANT_STATE_FLOOD);
+ 	    	gc_state.modal.coolant |= COOLANT_STATE_FLOOD;
 	    }
   	}	 		
   	if (buttons_temp & (1<<MIST_ON_SW)) {
@@ -492,12 +492,12 @@ void jogpad_check() {
         msg_to_display = 12; // now OFF!
   		  temp_state = flood_on;
 	    	coolant_stop();
- 	    	gc_state.modal.coolant |= (1<<COOLANT_STATE_MIST);
+ 	    	gc_state.modal.coolant |= COOLANT_STATE_MIST;
  	    	if (temp_state) coolant_set_state(COOLANT_FLOOD_ENABLE);
  		} else {
         msg_to_display = 13;
 	    	coolant_set_state(COOLANT_MIST_ENABLE);
- 	    	gc_state.modal.coolant &= ~(1<<COOLANT_STATE_MIST);
+ 	    	gc_state.modal.coolant &= ~COOLANT_STATE_MIST;
 	    }
   	}	 		
   	  	
@@ -505,44 +505,44 @@ void jogpad_check() {
   		if (atc_on) {
         msg_to_display = 14; // now OFF!
  	    	coolant_set_state(ATC_DISABLE);
- 	    	gc_state.modal.coolant &= ~(1<<COOLANT_STATE_ATC);
+ 	    	gc_state.modal.coolant &= ~COOLANT_STATE_ATC;
  		} else {
         msg_to_display = 15;
 	    	coolant_set_state(ATC_ENABLE);
- 	    	gc_state.modal.coolant |= (1<<COOLANT_STATE_ATC);
+ 	    	gc_state.modal.coolant |= COOLANT_STATE_ATC;
 	    }
   	}	 		
   	if (buttons_temp & (1<<AUX1_ON_SW)) {
   		if (aux1_on) {
         msg_to_display = 16;
 	    	coolant_set_state(AUX1_DISABLE);
- 	    	gc_state.modal.coolant &= ~(1<<COOLANT_STATE_AUX1);
+ 	    	gc_state.modal.coolant &= ~COOLANT_STATE_AUX1;
   		} else {
         msg_to_display = 17;
 	    	coolant_set_state(AUX1_ENABLE);
- 	    	gc_state.modal.coolant |= (1<<COOLANT_STATE_AUX1);
+ 	    	gc_state.modal.coolant |= COOLANT_STATE_AUX1;
 	  	}
   	}	 		
   	if (buttons_temp & (1<<AUX2_ON_SW)) {
   		if (aux2_on) {
         msg_to_display = 18;
 	    	coolant_set_state(AUX2_DISABLE);
- 	    	gc_state.modal.coolant &= ~(1<<COOLANT_STATE_AUX2);
+ 	    	gc_state.modal.coolant &= ~COOLANT_STATE_AUX2;
   		} else {
         msg_to_display = 19;
 	    	coolant_set_state(AUX2_ENABLE);
- 	    	gc_state.modal.coolant |= (1<<COOLANT_STATE_AUX2);
+ 	    	gc_state.modal.coolant |= COOLANT_STATE_AUX2;
 	  	}
   	}	 		
   	if (buttons_temp & (1<<AUX3_ON_SW)) {
   		if (aux3_on) {
         msg_to_display = 20;
 	    	coolant_set_state(AUX3_DISABLE);
- 	    	gc_state.modal.coolant &= ~(1<<COOLANT_STATE_AUX3);
+ 	    	gc_state.modal.coolant &= ~COOLANT_STATE_AUX3;
   		} else {
         msg_to_display = 21;
 	    	coolant_set_state(AUX3_ENABLE);
- 	    	gc_state.modal.coolant |= (1<<COOLANT_STATE_AUX3);
+ 	    	gc_state.modal.coolant |= COOLANT_STATE_AUX3;
 	  	}
   	}
   	if (spindle_on) {	 		
@@ -699,7 +699,7 @@ void jogpad_check() {
   #ifdef JOY_ENABLED
 		float joy_target_mpos[N_AXIS];    	// Maschinenposition in mm
 			
-		uint8_t joy_axis;	// kein Dial-Schalter EIN
+		uint8_t joy_axis = 0;	// kein Dial-Schalter EIN
 		uint8_t joy_rev = 0;
 		old_f_override = sys.f_override;
 		
@@ -742,7 +742,7 @@ void jogpad_check() {
 					joy_rev = 1;
 			#endif
 			}
-			// Bewegungs-Vektor auf Maschinengröße begrenzen; kann negativ sein!
+			// Bewegungs-Vektor auf MaschinengrÃ¶ÃŸe begrenzen; kann negativ sein!
 			#ifdef HOMING_FORCE_SET_ORIGIN
 				// assume positive machine space
 				// settings.max_travel is always negative!
@@ -806,7 +806,7 @@ void jogpad_check() {
 				spi_txrx_inout();
 	    	buttons_temp = JOY_INP_SR;
 				spi_tx_axis(joy_axis);  	    // neuen Status an Display
-    		protocol_execute_realtime();  // hält die Maschine am Laufen
+    		protocol_execute_realtime();  // hÃ¤lt die Maschine am Laufen
     		
 			  adc_dest_feed = get_feed_from_adc();
 				bool update_ovr = false;
@@ -832,7 +832,7 @@ void jogpad_check() {
 		} while (buttons_temp_old == buttons_temp);
 		
     if (sys.state & STATE_JOG) { 
-    	// Wichtig: Führt sonst zum Absturz, wenn Ende bereits erreicht:
+    	// Wichtig: FÃ¼hrt sonst zum Absturz, wenn Ende bereits erreicht:
     	// Block all other states from invoking motion cancel.
     	system_set_exec_state_flag(EXEC_MOTION_CANCEL);
 			#ifdef debug_jog
@@ -862,7 +862,7 @@ void jogpad_check() {
 
   if (dial_sema || (dial_delta_32 != 0)) { 
 	// Impuls(e) vom Handrad empfangen. Zielposition aus Delta-Wert dial_delta_32 errechnen 
-	// und Ziel über mc_line(target) anfahren.
+	// und Ziel Ã¼ber mc_line(target) anfahren.
 		#ifdef HOMING_FORCE_SET_ORIGIN
 		// assume positive machine space
 			jog_upper_limit = -settings.max_travel[dial_axis] - settings.homing_pulloff ;

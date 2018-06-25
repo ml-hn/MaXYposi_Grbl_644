@@ -211,5 +211,9 @@ void system_set_exec_accessory_override_flag(uint8_t mask);
 void system_clear_exec_motion_overrides();
 void system_clear_exec_accessory_overrides();
 
+#ifdef CMD_FEED_OVR_DIRECT
+	// TODO: document, function is used in serial.c
+	void system_set_exec_motion_override_direct(uint8_t data);
+#endif
 
 #endif

@@ -25,6 +25,9 @@ uint8_t sr_outputs_unused, sr_inputs_unused;										// SPI Display
 	// schiebt 16 Bit aus sr_outpus_0/_1 in Hardware-SR
 	// und holt 16 Bit aus Hardware-SRs in sr_inputs_0/_1
 	void spi_txrx_inout();
+
+	// TODO: document function. being used in spi_sr.c and jogpad.c
+	void spi_tx_axis(uint8_t axis_idx);
 	
 	// Achsenpositionen senden
 	void spi_tx_axis_roundrobin();

@@ -40,8 +40,10 @@
 
 #define PROC_NAME "AVR_644" 	// issued with $I command -cm
 
-#define GRBL_VERSION "1.1f5"	// issued with $I command -cm
-#define GRBL_VERSION_BUILD "02/24/2018"
+#ifndef GRBL_VERSION
+	#define GRBL_VERSION "1.1f5"	// issued with $I command -cm
+	#define GRBL_VERSION_BUILD "06062018"
+#endif
 
 //#define USER_PANEL_SMALL  // 16 SR inputs and ADC7 used for manual jog (joystick, btns etc). SPI_SR needed.
 #define USER_PANEL_LARGE  // MaXYpulti - 32 SR inputs and ADC7 used for manual jog (joystick, btns etc). SPI_SR needed.
@@ -100,7 +102,7 @@
 // the user to perform the homing cycle (or override the locks) before doing anything else. This is
 // mainly a safety feature to remind the user to home, since position is unknown to Grbl.
 // ##############################################################################################################
-#define HOMING_INIT_LOCK // Comment to disable
+// #define HOMING_INIT_LOCK // zun√§chst einmal f√ºr den Testzeitraum // Comment to disable
 // ##############################################################################################################
 
 // Define the homing cycle patterns with bitmasks. The homing cycle first performs a search mode
@@ -189,7 +191,7 @@
 // Enables a second coolant control pin via the mist coolant g-code command M7 on the Arduino Uno
 // analog pin 4. Only use this option if you require a second coolant control pin.
 // NOTE: The M8 flood coolant control pin on analog pin 3 will still be functional regardless.
-#define ENABLE_M7 // Disabled by default. Uncomment to enable.
+// #define ENABLE_M7 // Disabled by default. Uncomment to enable.
 
 // This option causes the feed hold input to act as a safety door switch. A safety door, when triggered,
 // immediately forces a feed hold and then safely de-energizes the machine. Resuming is blocked until
@@ -199,7 +201,7 @@
 
 // After the safety door switch has been toggled and restored, this setting sets the power-up delay
 // between restoring the spindle and coolant and resuming the cycle.
-#define SAFETY_DOOR_SPINDLE_DELAY 4.0 // Float (seconds)
+#define SAFETY_DOOR_SPINDLE_DELAY 3.0 // default 4 // Float (seconds)
 #define SAFETY_DOOR_COOLANT_DELAY 1.0 // Float (seconds)
 
 // Enable CoreXY kinematics. Use ONLY with CoreXY machines.
@@ -216,7 +218,8 @@
 // NOTE: The top option will mask and invert all control pins. The bottom option is an example of
 // inverting only two control pins, the safety door and reset. See cpu_map.h for other bit definitions.
 // #define INVERT_CONTROL_PIN_MASK CONTROL_MASK // Default disabled. Uncomment to disable.
-// #define INVERT_CONTROL_PIN_MASK ((1<<CONTROL_SAFETY_DOOR_BIT)|(CONTROL_RESET_BIT)) // Default disabled.
+// #define INVERT_CONTROL_PIN_MASK ((1<<CONTROL_SAFETY_DOOR_BIT)|(1<<CONTROL_RESET_BIT)) // Default disabled.
+#define INVERT_CONTROL_PIN_MASK (1<<CONTROL_RESET_BIT) // My Emergency Button is a "NC" Type.
 
 // Inverts select limit pin states based on the following mask. This effects all limit pin functions,
 // such as hard limits and homing. However, this is different from overall invert limits setting.
@@ -380,7 +383,7 @@
 // NOTE: BEWARE! The Arduino bootloader toggles the D13 pin when it powers up. If you flash Grbl with
 // a programmer (you can use a spare Arduino as "Arduino as ISP". Search the web on how to wire this.),
 // this D13 LED toggling should go away. We haven't tested this though. Please report how it goes!
-// #define USE_SPINDLE_DIR_AS_ENABLE_PIN // Default disabled. Uncomment to enable.
+#define USE_SPINDLE_DIR_AS_ENABLE_PIN // Default disabled. Uncomment to enable.
 
 // Alters the behavior of the spindle enable pin with the USE_SPINDLE_DIR_AS_ENABLE_PIN option . By default,
 // Grbl will not disable the enable pin if spindle speed is zero and M3/4 is active, but still sets the PWM 
@@ -388,7 +391,7 @@
 // input. However, in some use cases, user may want the enable pin to disable with a zero spindle speed and 
 // re-enable when spindle speed is greater than zero. This option does that.
 // NOTE: Requires USE_SPINDLE_DIR_AS_ENABLE_PIN to be enabled.
-// #define SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED // Default disabled. Uncomment to enable.
+#define SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED // I think this is ok with my PWM2analog! Default disabled. Uncomment to enable.
 
 // With this enabled, Grbl sends back an echo of the line it has received, which has been pre-parsed (spaces
 // removed, capitalized letters, no comments) and is to be immediately executed by Grbl. Echoes will not be
@@ -506,7 +509,7 @@
 // that the switches don't bounce, we recommend enabling this option. This will help prevent
 // triggering a hard limit when the machine disengages from the switch.
 // NOTE: This option has no effect if SOFTWARE_DEBOUNCE is enabled.
-// #define HARD_LIMIT_FORCE_STATE_CHECK // Default disabled. Uncomment to enable.
+#define HARD_LIMIT_FORCE_STATE_CHECK // Default disabled. Uncomment to enable.
 
 // Adjusts homing cycle search and locate scalars. These are the multipliers used by Grbl's
 // homing cycle to ensure the limit switches are engaged and cleared through each phase of
@@ -584,7 +587,7 @@
 // NOTE: Still a work-in-progress. Machine coordinates must be in all negative space and
 // does not work with HOMING_FORCE_SET_ORIGIN enabled. Parking motion also moves only in
 // positive direction.
-// #define PARKING_ENABLE  // Default disabled. Uncomment to enable
+#define PARKING_ENABLE  // Default disabled. Uncomment to enable
 
 // Configure options for the parking motion, if enabled.
 #define PARKING_AXIS Z_AXIS // Define which axis that performs the parking motion
@@ -599,7 +602,7 @@
 // The command is modal and will be set after a planner sync. Since it is g-code, it is 
 // executed in sync with g-code commands. It is not a real-time command.
 // NOTE: PARKING_ENABLE is required.
-// #define ENABLE_PARKING_OVERRIDE_CONTROL   // Default disabled. Uncomment to enable
+#define ENABLE_PARKING_OVERRIDE_CONTROL   // Default disabled. Uncomment to enable
 
 // This option will automatically disable the laser during a feed hold by invoking a spindle stop
 // override immediately after coming to a stop. However, this also means that the laser still may
@@ -656,16 +659,16 @@
 	Jumper) und 3 (beide Jumper) eingestellt werden. Wenn ein Adress-Befehl (real 
 	time command, 0xD0 to 0xD3) empfangen wurde, der nicht der eingestellten 
 	Adresse entspricht, wird GRBL ab sofort alle  Befehle (G-Codes sowie Realtime-
-	Befehle auﬂer nat¸rlich einem Adress-Befehl) ignorieren, Erst wenn GRBL wieder 
-	ein zur eingestellten Adresse passenden Adress-Befehl (0xD0 to 0xD3) empf‰ngt, 
+	Befehle au√üer nat√ºrlich einem Adress-Befehl) ignorieren, Erst wenn GRBL wieder 
+	ein zur eingestellten Adresse passenden Adress-Befehl (0xD0 to 0xD3) empf√§ngt, 
 	wird die Sperre aufgehoben. Nach einem Hardware-Reset ist die Sperre nicht 
 	aktiv.
   
-  Dies ermˆglicht es, mehr als eine GRBL-Board an einem seriellen Anschluss zu 
-  betreiben, z.B. f¸r Maschinen mit mehr als drei Achsen. Sobald ein Adress-
+  Dies erm√∂glicht es, mehr als eine GRBL-Board an einem seriellen Anschluss zu 
+  betreiben, z.B. f√ºr Maschinen mit mehr als drei Achsen. Sobald ein Adress-
   Befehl gesendet wurde, ist nur noch ein Board aktiv. 
   
-  Voraussetzung: TX des ATmega muss ¸ber Diode und Pull-Up "wired-or"-f‰hig sein.
+  Voraussetzung: TX des ATmega muss √ºber Diode und Pull-Up "wired-or"-f√§hig sein.
   
 	With DEVICE_ADDR_ENABLE defined, GRBL is enabled on startup and if address 
 	select 0xD0 to 0xD3 (real time command) is received and address select (data 

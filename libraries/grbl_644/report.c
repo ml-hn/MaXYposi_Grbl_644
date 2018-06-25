@@ -437,7 +437,7 @@ void report_build_info(char *line)
     serial_write('H');
   #endif
   #ifdef LIMITS_TWO_SWITCHES_ON_AXES
-    serial_write('L');
+    serial_write('T');
   #endif
   #ifdef ALLOW_FEED_OVERRIDE_DURING_PROBE_CYCLES
     serial_write('A');
@@ -477,8 +477,11 @@ void report_build_info(char *line)
   #endif
 
   // NOTE: Compiled values, like override increments/max/min values, may be added at some point later.
-  // These will likely have a comma delimiter to separate them.  
-  
+  serial_write(',');
+  print_uint8_base10(BLOCK_BUFFER_SIZE-1);
+  serial_write(',');
+  print_uint8_base10(RX_BUFFER_SIZE);
+	
   // Weitere Optionen von -cm 
   #ifdef DEVICE_ADDR_ENABLE
     printPgmString(PSTR(",ADDR:")); // Device Address set by jumper
