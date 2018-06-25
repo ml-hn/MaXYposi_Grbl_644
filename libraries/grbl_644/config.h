@@ -42,7 +42,7 @@
 
 #ifndef GRBL_VERSION
 	#define GRBL_VERSION "1.1f5"	// issued with $I command -cm
-	#define GRBL_VERSION_BUILD "06062018"
+	#define GRBL_VERSION_BUILD "25062018"
 #endif
 
 //#define USER_PANEL_SMALL  // 16 SR inputs and ADC7 used for manual jog (joystick, btns etc). SPI_SR needed.
