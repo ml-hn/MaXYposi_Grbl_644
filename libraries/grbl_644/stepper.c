@@ -48,11 +48,15 @@
 // NOTE: Current settings are set to overdrive the ISR to no more than 16kHz, balancing CPU overhead
 // and timer accuracy.  Do not alter these settings unless you know what you are doing.
 #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
-	#define MAX_AMASS_LEVEL 3
+	// Durch die Änderung von F_CPU auf 20MHz, unter Beibehaltung der Zweierpotenz mit einem Exponenten 2*n
+	// für Overdrive, muss der Divisor für AMASS_LEVELx geändert werden. Ausserdem wird für die erhöhte CPU-
+	// frequenz ein weiteres AMASS_LEVEL hinzugefügt.
+	#define MAX_AMASS_LEVEL 4
 	// AMASS_LEVEL0: Normal operation. No AMASS. No upper cutoff frequency. Starts at LEVEL1 cutoff frequency.
-	#define AMASS_LEVEL1 (F_CPU/8000) // Over-drives ISR (x2). Defined as F_CPU/(Cutoff frequency in Hz)
-	#define AMASS_LEVEL2 (F_CPU/4000) // Over-drives ISR (x4)
-	#define AMASS_LEVEL3 (F_CPU/2000) // Over-drives ISR (x8)
+	#define AMASS_LEVEL1 (F_CPU/10000) // Over-drives ISR (x2). Defined as F_CPU/(Cutoff frequency in Hz)
+	#define AMASS_LEVEL2 (F_CPU/5000) // Over-drives ISR (x4)
+	#define AMASS_LEVEL3 (F_CPU/2500) // Over-drives ISR (x8)
+	#define AMASS_LEVEL4 (F_CPU/1750) // Over-drives ISR (x16)
 
   #if MAX_AMASS_LEVEL <= 0
     error "AMASS must have 1 or more levels to operate correctly."
