@@ -1,11 +1,12 @@
-This repo is forked from heise/MaXYposi_Grbl_644
+### This repo is forked from heise/MaXYposi_Grbl_644
 ***
 
 ### MaXYposi-Schrittmotorsteuerung 
 
 ![Picture](https://github.com/heise/MaXYposi_Grbl_644/blob/master/maxyposi_pcb/platine_ausschnitt.JPG)
 
-Aus dem Originaltext:
+### Aus dem Originaltext:
+
 Das auf GRBL basierende CNC-Steuerungs-Projekt für **4 Achsen und vielen 
 I/Os** auf einer speziell für CNC-Zwecke ausgelegten Platine. Natürlich wäre als 
 Bahnsteuerung auch ein normaler Arduino-328 mit dem Standard-GRBL geeignet - wir 
