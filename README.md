@@ -1,15 +1,12 @@
-![GitHub Logo](http://www.heise.de/make/icons/make_logo.png)
-
-Maker Media GmbH und c't, Heise Zeitschriften Verlag
-
+This repo is forked from heise/MaXYposi_Grbl_644
 ***
 
 ### MaXYposi-Schrittmotorsteuerung 
 
-
 ![Picture](https://github.com/heise/MaXYposi_Grbl_644/blob/master/maxyposi_pcb/platine_ausschnitt.JPG)
 
-Unser auf GRBL basierendes CNC-Steuerungs-Projekt für **4 Achsen und vielen 
+Aus dem Originaltext:
+Das auf GRBL basierende CNC-Steuerungs-Projekt für **4 Achsen und vielen 
 I/Os** auf einer speziell für CNC-Zwecke ausgelegten Platine. Natürlich wäre als 
 Bahnsteuerung auch ein normaler Arduino-328 mit dem Standard-GRBL geeignet - wir 
 haben unser GRBL-644 allerdings auf 4 Achsen erweitert und 32 I/Os hinzugefügt, 
@@ -111,4 +108,3 @@ WORK IN PROGRESS. STAY TUNED.
 -------------
 Grbl is an open-source project and fueled by the free-time of our intrepid administrators and altruistic users. If you'd like to donate, all proceeds will be used to help fund supporting hardware and testing equipment. Thank you!
 
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CUGXJHXA36BYW)
