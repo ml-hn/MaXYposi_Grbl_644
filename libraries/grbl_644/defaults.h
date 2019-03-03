@@ -83,29 +83,29 @@
   #define DEFAULT_HARD_LIMIT_ENABLE 0         // $21 false
   #define DEFAULT_HOMING_ENABLE 1             // $22 true
   #define DEFAULT_HOMING_DIR_MASK 3           // $23, 0000CZYX, 3 = move XY in negative direction
-  #define DEFAULT_HOMING_FEED_RATE 60.0      // $24 mm/min
+  #define DEFAULT_HOMING_FEED_RATE 60.0       // $24 mm/min
   #define DEFAULT_HOMING_SEEK_RATE 1800.0     // $25 mm/min
-  #define DEFAULT_HOMING_DEBOUNCE_DELAY 0    // $26 msec (0-65k)
+  #define DEFAULT_HOMING_DEBOUNCE_DELAY 0     // $26 msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0          // $27 mm
-  #define DEFAULT_SPINDLE_RPM_MAX 24000.0      // $30 rpm
-  #define DEFAULT_SPINDLE_RPM_MIN 10000.0         // $31 rpm
+  #define DEFAULT_SPINDLE_RPM_MAX 24000.0     // $30 rpm
+  #define DEFAULT_SPINDLE_RPM_MIN 8000.0      // $31 rpm
   #define DEFAULT_LASER_MODE 0                // $32 false
-  #define DEFAULT_X_STEPS_PER_MM 100.0         // $100, = 1600imp/20,  20 mm Vorschub pro Umdrehung 
-  #define DEFAULT_Y_STEPS_PER_MM 100.0         // $101, = 1600imp/20,  20 mm Vorschub pro Umdrehung
-  #define DEFAULT_Z_STEPS_PER_MM 80.0       // $102, zöllige Spindel
+  #define DEFAULT_X_STEPS_PER_MM 100.0        // $100, = 1600imp/20,  20 mm Vorschub pro Umdrehung 
+  #define DEFAULT_Y_STEPS_PER_MM 100.0        // $101, = 1600imp/20,  20 mm Vorschub pro Umdrehung
+  #define DEFAULT_Z_STEPS_PER_MM 80.0         // $102, zöllige Spindel
   #define DEFAULT_C_STEPS_PER_MM 8.888        // $103, 360° = 3200 steps, = 3200/360 -cm
-  #define DEFAULT_X_MAX_RATE 3300.0          // $110 in mm/min
-  #define DEFAULT_Y_MAX_RATE 3800.0          // $111 in mm/min
-  #define DEFAULT_Z_MAX_RATE 2800.0          // $112 in mm/min
+  #define DEFAULT_X_MAX_RATE 3300.0           // $110 in mm/min
+  #define DEFAULT_Y_MAX_RATE 3300.0           // $111 in mm/min
+  #define DEFAULT_Z_MAX_RATE 3300.0           // $112 in mm/min
   #define DEFAULT_C_MAX_RATE 100000.0         // $113 in deg/min
-  #define DEFAULT_X_ACCELERATION (160.0*60*60) // $120, 1000*60*60 mm/min^2 = 10 mm/sec^2
-  #define DEFAULT_Y_ACCELERATION (160.0*60*60) // $121, 1000*60*60 mm/min^2 = 10 mm/sec^2
-  #define DEFAULT_Z_ACCELERATION (160.0*60*60)  // $122, 800*60*60 mm/min^2 = 10 mm/sec^2
-  #define DEFAULT_C_ACCELERATION (15000.0*60*60)// $123, 15000*60*60 mm/min^2 = 150000 deg/sec^2
-  #define DEFAULT_X_MAX_TRAVEL 371.0          // $130 in mm NOTE: Must be a positive value.
-  #define DEFAULT_Y_MAX_TRAVEL 747.0          // $131 in mm NOTE: Must be a positive value.
-  #define DEFAULT_Z_MAX_TRAVEL 167.0           // $132 in mm NOTE: Must be a positive value.
-  #define DEFAULT_C_MAX_TRAVEL 360.0          // $133 in Degrees NOTE: Must be a positive value.
+  #define DEFAULT_X_ACCELERATION (160.0*60*60)   // $120, 1000*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Y_ACCELERATION (160.0*60*60)   // $121, 1000*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_Z_ACCELERATION (160.0*60*60)   // $122, 800*60*60 mm/min^2 = 10 mm/sec^2
+  #define DEFAULT_C_ACCELERATION (15000.0*60*60) // $123, 15000*60*60 mm/min^2 = 150000 deg/sec^2
+  #define DEFAULT_X_MAX_TRAVEL 371.0             // $130 in mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 747.0             // $131 in mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 167.0             // $132 in mm NOTE: Must be a positive value.
+  #define DEFAULT_C_MAX_TRAVEL 360.0             // $133 in Degrees NOTE: Must be a positive value.
 #endif
 
 #endif
