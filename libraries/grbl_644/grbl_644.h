@@ -21,12 +21,6 @@
 #ifndef grbl_644_h
 #define grbl_644_h
 
-// Grbl versioning system
-// #ifndef GRBL_VERSION 			
-//	 #define GRBL_VERSION "1.1f_cm"					// Now defined in config.h -cm
-//	 #define GRBL_VERSION_BUILD "20170211"
-// #endif
-
 // Define standard libraries used by Grbl.
 #include <avr/io.h>
 #include <avr/pgmspace.h>
