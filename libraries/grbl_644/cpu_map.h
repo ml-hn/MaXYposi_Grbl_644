@@ -313,14 +313,17 @@
   #define JOY_INP_SR		sr_inputs_2  // Shift register used as joystick port
 #endif
 
-#define REV_C_SW			7						 // Joystick momentary reverse switches
-#define FWD_C_SW			6						 // Joystick momentary forward switches
+#define REV_C_SW			7			// Joystick momentary reverse switches
+#define FWD_C_SW			6			// Joystick momentary forward switches
 #define REV_Z_SW			5
-#define FWD_Z_SW			4
-#define REV_Y_SW			3
-#define FWD_Y_SW			2
-#define REV_X_SW			1
-#define FWD_X_SW			0
+#define FWD_Z_SW			4			
+                                    // Um die Jog-Tasten f. x & y um -90 Grad (im UZS) 
+                                    // zu drehen ist die Pin-Zuordnung zu ändern:
+                                    //    normal:                 -90°:
+#define REV_Y_SW            1       //          3                     1	
+#define FWD_Y_SW            0       //          2        /y+/         0       /x-/
+#define REV_X_SW            2       //          1    /x-/  /x+/       2	  /y-/  /y+/
+#define FWD_X_SW            3       //          0      /y-/           3     /x+/
 
 // ----------------------------------------------------------------------------
 // DIAL_INP_SR: Schalter DIAL-Richtung
